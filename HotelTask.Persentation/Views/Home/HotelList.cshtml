@@ -1,0 +1,126 @@
+﻿@model List<HotelTask.Dto.Models.HotelDto>
+@{
+    Layout = null;
+}
+
+<link href="~/Tabulator/dist/css/tabulator.min.css" rel="stylesheet">
+
+<style>
+
+    .tabulator {
+        border: none !important;
+        background-color: #EDEDED;
+    }
+
+    .tabulator-editing {
+        background-color: #FFF !important;
+        border: 1px solid #000 !important;
+    }
+
+    .tabulator .tabulator-header .tabulator-col {
+        background-color: #FFF !important;
+        border-bottom: 1px solid #EDEDED;
+        border-right: none;
+    }
+
+    .tabulator-tableHolder {
+        min-height: 200px;
+    }
+</style>
+
+<div class="container-fluid pt-25">
+    <div class="container-fluid">
+
+
+
+        <div id="AllHotelTabulatorTable"></div>
+    </div>
+</div>
+<script type="text/javascript" src="~/Tabulator/dist/js/tabulator.min.js"></script>
+<script>
+    allHotelList = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));
+    const allHotelTabulatorColumns = [];
+    var table = new Tabulator("#AllHotelTabulatorTable", {
+        data: allHotelList,
+        placeholder: "No Data Available",
+        layout: "fitColumns",
+        columnDefaults: {
+            resizable: true,
+        },
+        columns: [
+          
+            {
+                title: "Code",
+                field: "Code",
+                sorter: "string",
+            },
+            {
+                title: "Name",
+                field: "Name",
+                sorter: "string",
+
+            },
+            {
+                title: "Location",
+                field: "Location",
+                sorter: "string",
+
+            },
+            {
+                title: "Rating",
+                field: "Rating",
+                sorter: "string",
+
+
+            },
+            {
+                title: "LowestPrice",
+                field: "LowestPrice",
+                sorter: "string",
+
+            },
+            {
+                title: "Currency",
+                field: "Currency",
+                sorter: "string",
+
+
+            },
+            {
+                title: "IsReady",
+                field: "IsReady",
+                sorter: "string",
+
+            },
+            
+        ],
+        rowFormatter: function (row) {
+            //create and style holder elements
+            var holderEl = document.createElement("div");
+            var tableEl = document.createElement("div");
+
+            holderEl.style.boxSizing = "border-box";
+            holderEl.style.padding = "10px 30px 10px 10px";
+            holderEl.style.borderTop = "1px solid #333";
+            holderEl.style.borderBotom = "1px solid #333";
+
+
+            tableEl.style.border = "1px solid #333";
+
+            holderEl.appendChild(tableEl);
+
+            row.getElement().appendChild(holderEl);
+
+            var subTable = new Tabulator(tableEl, {
+                layout: "fitColumns",
+                data: row.getData().Rooms,
+                columns: [
+                    { title: "Room Code", field: "Code" },
+                    { title: "Room Name", field: "Name" },
+                    { title: "Occupancy", field: "Occupancy" },
+                    { title: "Status", field: "Status" },
+                ]
+            })
+        }
+    })
+</script>

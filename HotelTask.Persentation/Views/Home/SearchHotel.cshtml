@@ -1,0 +1,63 @@
+﻿@model HotelTask.Dto.Queries.HotelQueryModel
+@{
+    Layout = null;
+}
+
+<div class="container-fluid pt-25">
+<div class="container-fluid">
+
+    <!-- Title -->
+    <div class="row heading-bg">
+        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+            <h5 class="txt-dark"> Hotels</h5>
+        </div>
+      
+    </div>
+    <!-- /Title -->
+    <!-- Row -->
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h5>Keyword</h5>
+                        @Html.TextBoxFor(model => model.KeyWord, new { @class = "form-control filter-control" })
+                    </div>
+                    <div class="col-md-4">
+                        <h5>Price From</h5>
+                        @Html.TextBoxFor(model => model.PriceFrom, new { @class = "form-control filter-control" })
+
+                    </div>
+                    <div class="col-md-4">
+                        <h5>Price To</h5>
+                        @Html.TextBoxFor(model => model.PriceTo, new { @class = "form-control filter-control" })
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-12 buttons">
+                        <button type="button" class="btn btn-primary" onclick="Search()" style="float:right">Search</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+ 
+</div>
+</div>
+<script>
+    function Search() {
+        var model = { KeyWord: $("#KeyWord").val(), PriceFrom: $("#PriceFrom").val(),PriceTo: $("#PriceTo").val() };
+            $.ajax({
+                type: "POST",
+                data: model,
+                url: '@Url.Action("SearchHotel", "Home")',
+                success: function (result) {
+                    if (result != null) {
+                        $("#HotelListDiv").html(result);
+                    }
+                }
+            });
+
+    }
+</script>
