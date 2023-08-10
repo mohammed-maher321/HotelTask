@@ -1,0 +1,45 @@
+﻿
+
+
+<div id="HotelSearchDiv" class="row section-page">
+    
+    <div id="HotelfilterSearch">
+    </div>
+
+    <div id="HotelListDiv">
+    </div>
+</div>
+
+
+
+<script>
+    
+    LoadHotels();
+    LoadFilterHotels();
+
+    function LoadHotels() {
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("HotelList", "SoapHotel")',
+            success: function (result) {
+                if (result != null) {
+                    $("#HotelListDiv").html(result);
+                }
+            }
+        });
+    }
+
+    function LoadFilterHotels() {
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("SearchHotel", "SoapHotel")',
+            success: function (result) {
+                if (result != null) {
+                    $("#HotelfilterSearch").html(result);
+                }
+            }
+        });
+    }
+      
+
+</script>
